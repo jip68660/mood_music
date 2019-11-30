@@ -20,6 +20,8 @@ admin.initializeApp();
 //   res.redirect(303, snapshot.ref.toString());
 // });
 
+console.log("Before Post");
+
 app.post('/', function(req, res) {
   console.log('handling /');
 
@@ -46,4 +48,5 @@ app.post('/', function(req, res) {
   });
 });
 
+console.log("After Post");
 exports.face = functions.https.onRequest(app);
