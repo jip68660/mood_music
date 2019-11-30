@@ -1,6 +1,7 @@
 import React from 'react';
 import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
+import Webcam from 'react-webcam';
 import './App.css';
 
 class App extends React.Component {
@@ -28,6 +29,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Mood Music</h1>
+        {/* <Webcam /> */}
         {
           (this.state.dataUri) 
           ? <div>
