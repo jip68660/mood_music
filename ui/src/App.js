@@ -3,6 +3,7 @@ import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 import Webcam from 'react-webcam';
 import './App.css';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -52,6 +53,13 @@ class App extends React.Component {
     this.setState({
       dataUri: dataUri
     });
+    const data = new FormData();
+    data.append('file', this.state.dataUri);
+    axios.post("https://us-central1-moodmusic-280e5.cloudfunctions.net/face", data, {
+    })
+    .then(res => {
+      console.log(res.statusText)
+    });
   }
   retakePhoto = () => {
     this.setState({
@@ -76,7 +84,8 @@ class App extends React.Component {
               </button>
             </div>
           : <Camera
-            onTakePhotoAnimationDone = { this.onTakePhotoAnimationDone } 
+              onTakePhotoAnimationDone = { this.onTakePhotoAnimationDone }
+              imageType = { IMAGE_TYPES.PNG }
           />
         }
       </div>
