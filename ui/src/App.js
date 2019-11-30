@@ -1,9 +1,11 @@
 import React from 'react';
-import Camera from 'react-html5-camera-photo';
+import Camera, { IMAGE_TYPES} from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 import Webcam from 'react-webcam';
 import './App.css';
 import axios from 'axios';
+import FormData from 'form-data';
+import avatar from './avatar.png';
 
 class App extends React.Component {
   constructor(props) {
@@ -51,8 +53,10 @@ class App extends React.Component {
   onTakePhotoAnimationDone (dataUri) {
     console.log('Take Photo');
     this.setState({
-      dataUri: dataUri
+      // dataUri: dataUri
+      dataUri: avatar 
     });
+    console.log(this.state.dataUri);
     const data = new FormData();
     data.append('file', this.state.dataUri);
     axios.post("https://us-central1-moodmusic-280e5.cloudfunctions.net/face", data, {
@@ -65,6 +69,7 @@ class App extends React.Component {
     this.setState({
       dataUri: null
     });
+    console.log(this.state.dataUri);
   }
   
   render() {
