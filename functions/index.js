@@ -30,7 +30,7 @@ app.post('/', function(req, res) {
   const client = new vision.ImageAnnotatorClient(
     { crendentials: 
       { client_email: "jip68660@gmail.com", 
-      private_key: "AIzaSyCEAGjyg3XHDmaVnCE22t1cFtRkpsydfus"}
+        private_key: "AIzaSyCEAGjyg3XHDmaVnCE22t1cFtRkpsydfus"}
     }
   );
   console.log('Connect to vision');
@@ -40,7 +40,10 @@ app.post('/', function(req, res) {
   .then(response => {
     console.log(response.json());  
     return response.json();
-  });
+  })
+  .catch(err => {
+      console.error(err);
+  })
   
 
   const faces = result.faceAnnotations;
