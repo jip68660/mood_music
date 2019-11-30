@@ -33,9 +33,15 @@ app.post('/', function(req, res) {
       private_key: "AIzaSyCEAGjyg3XHDmaVnCE22t1cFtRkpsydfus"}
     }
   );
+  console.log('Connect to vision');
+  console.log(req.file);
 
   const [result] = client.faceDetection(req.file)
-  .then(response => response.json());
+  .then(response => {
+    console.log(response.json());  
+    return response.json();
+  });
+  
 
   const faces = result.faceAnnotations;
   console.log('Faces:');
