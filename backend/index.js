@@ -1,10 +1,10 @@
-const functions  = require('firebase-functions');
+import { https } from 'firebase-functions';
 
-const admin = require('firebase-admin');
-admin.initializeApp();
+import { initializeApp, database } from 'firebase-admin';
+initializeApp();
 
-exports.addMessage = functions.https.onRequest(async (req, res) => {
+export const addMessage = https.onRequest(async (req, res) => {
     const original = req.query.text;
-    const snapshot = await admin.database().ref('/messages').push({ original: original });
+    const snapshot = await database().ref('/messages').push({ original: original });
     res.redirect(303, snapshot.ref.toString());
 });
