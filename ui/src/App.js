@@ -8,11 +8,45 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      //Photo
       dataUri: null
     }; 
     this.onTakePhotoAnimationDone = this.onTakePhotoAnimationDone.bind(this);
     this.retakePhoto = this.retakePhoto.bind(this);
   }
+  // componentDidMount() {    
+  //   var constraints = { audio: true, video: true};
+  //   if (navigator.mediaDevices === undefined) {
+  //     navigator.mediaDevices = {};
+  //   }
+  //   if (navigator.mediaDevices.getUserMedia === undefined) {
+  //     navigator.mediaDevices.getUserMedia = function(constraints) {
+  //       var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  //       if (!getUserMedia) {
+  //         return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+  //       }
+  //       return new Promise(function(resolve, reject) {
+  //         getUserMedia.call(navigator, constraints, resolve, reject);
+  //       });
+  //     }
+  //   }
+  //   navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+  //   .then(function(stream) {
+  //     var video = document.querySelector('video');
+  //     if ("srcObject" in video) {
+  //       video.srcObject = stream;
+  //     } else {
+  //       video.src = window.URL.createObjectURL(stream);
+  //     }
+  //     video.onloadedmetadata = function(e) {
+  //       video.play();
+  //     };
+  //   })
+  //   .catch(function(err) {
+  //     console.log(err.name + ": " + err.message);
+  //   });
+  // }
+
   onTakePhotoAnimationDone (dataUri) {
     console.log('Take Photo');
     this.setState({
