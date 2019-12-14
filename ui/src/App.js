@@ -21,6 +21,14 @@ const API_KEY = 'AIzaSyA1rFHnFYY7C0Dfmeyo7H6TtMVSu0hKqFQ';
 const term = 'music when you are depressed';
 
 dotenv.config()
+// initialize Firebase Admin
+admin.initializeApp({
+  apiKey: process.env.MOOD_MUSIC_API_KEY,
+  // authDomain: '<your-auth-domain>',
+  // databaseURL: '<your-database-url>',
+  storageBucket: process.env.MOOD_MUSIC_BUCKET_URI,
+});
+let bucket = admin.storage().bucket();
 
 class App extends React.Component {
   constructor(props) {
@@ -36,14 +44,6 @@ class App extends React.Component {
     this.retakePhoto = this.retakePhoto.bind(this);
     this.handleAccess = this.handleAccess.bind(this);
 
-    // initialize Firebase Admin
-    admin.initializeApp({
-      apiKey: process.env.MOOD_MUSIC_API_KEY,
-      // authDomain: '<your-auth-domain>',
-      // databaseURL: '<your-database-url>',
-      storageBucket: process.env.MOOD_MUSIC_BUCKET_URI,
-    });
-    this.bucket = admin.storage().bucket();
   }
 
   videoSearch(term) {
@@ -76,7 +76,7 @@ class App extends React.Component {
 
     // upload photo
     console.log(`data URI: ${dataUri}`)
-    this.bucket.upload(dataUri, function(err, file, apiResponse) {
+    bucket.upload(dataUri, function(err, file, apiResponse) {
       // Your bucket now contains:
       // - "image.png" (with the contents of `/local/path/image.png')
       console.log(`done uploading ${dataUri}`);
