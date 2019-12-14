@@ -13,7 +13,7 @@ import _ from 'lodash';
 import YTSearch from 'youtube-api-search';
 
 import dotenv from 'dotenv';
-import admin from 'firebase-admin';
+import * as firebase from 'firebase';
 
 import './App.css';
 
@@ -21,14 +21,16 @@ const API_KEY = 'AIzaSyA1rFHnFYY7C0Dfmeyo7H6TtMVSu0hKqFQ';
 const term = 'music when you are depressed';
 
 dotenv.config()
-// initialize Firebase Admin
-admin.initializeApp({
-  apiKey: process.env.MOOD_MUSIC_API_KEY,
+var firebaseConfig = {
+  apiKey: 'AIzaSyB7jaWkH0KJWiADZKWd-JZVEgr-o6sezFs',
   // authDomain: '<your-auth-domain>',
   // databaseURL: '<your-database-url>',
-  storageBucket: process.env.MOOD_MUSIC_BUCKET_URI,
-});
-let bucket = admin.storage().bucket();
+  storageBucket: 'gs://moodmusic-280e5.appspot.com',
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+let storage = firebase.storage()
 
 class App extends React.Component {
   constructor(props) {
@@ -76,6 +78,7 @@ class App extends React.Component {
 
     // upload photo
     console.log(`data URI: ${dataUri}`)
+    /*
     bucket.upload(dataUri, function(err, file, apiResponse) {
       // Your bucket now contains:
       // - "image.png" (with the contents of `/local/path/image.png')
@@ -83,7 +86,29 @@ class App extends React.Component {
 
       // `file` is an instance of a File object that refers to your new file.
     });
+    */
 
+    var imgPathRef = storage.ref('faces/user1/image1.png');
+		imgPathRef.getDownloadURL().then(function(url) {
+			// `url` is the download URL for 'images/stars.jpg'
+
+			// This can be downloaded directly:
+			var xhr = new XMLHttpRequest();
+			xhr.responseType = 'blob';
+			xhr.onload = function(event) {
+				var blob = xhr.response;
+				console.log(blob);
+				console.log('done');
+			};
+			xhr.open('GET', url);
+			return xhr.send();
+
+			// Or inserted into an <img> element:
+			var img = document.getElementById('myimg');
+			img.src = url;
+		}).catch(function(error) {
+			// Handle any errors
+		});
 
 
 
