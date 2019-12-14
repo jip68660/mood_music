@@ -1,3 +1,29 @@
-i {
-    font-size: 50px;
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    transition: all .2s ease-in-out;
+    color: white;
+}
+.container:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+.container:hover .container_body {
+    opacity: 1;
+}
+.container_header {
+    font-size: 5rem;
+    align-self: center;
+    font-weight: bold;
+}
+.container_body {
+    font-size: 2rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 3s;
+}
+p {
+    margin: 0;
 }

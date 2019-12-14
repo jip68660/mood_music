@@ -15,8 +15,6 @@ import YTSearch from 'youtube-api-search';
 import dotenv from 'dotenv';
 import * as firebase from 'firebase';
 
-import './App.css';
-
 const API_KEY = 'AIzaSyA1rFHnFYY7C0Dfmeyo7H6TtMVSu0hKqFQ';
 const term = 'music when you are depressed';
 
@@ -87,36 +85,27 @@ class App extends React.Component {
       // `file` is an instance of a File object that refers to your new file.
     });
     */
+    this.videoSearch(term);
 
-    var imgPathRef = storage.ref('faces/user1/image1.png');
-		imgPathRef.getDownloadURL().then(function(url) {
-			// `url` is the download URL for 'images/stars.jpg'
+    // var imgPathRef = storage.ref('faces/user1/image1.png');
+		// imgPathRef.getDownloadURL().then(function(url) {
+		// 	// `url` is the download URL for 'images/stars.jpg'
 
-			// This can be downloaded directly:
-			var xhr = new XMLHttpRequest();
-			xhr.responseType = 'blob';
-			xhr.onload = function(event) {
-				var blob = xhr.response;
-				console.log(blob);
-				console.log('done');
-			};
-			xhr.open('GET', url);
-			return xhr.send();
+		// 	// This can be downloaded directly:
+		// 	var xhr = new XMLHttpRequest();
+		// 	xhr.responseType = 'blob';
+		// 	xhr.onload = function(event) {
+		// 		var blob = xhr.response;
+		// 		console.log(blob);
+    //     console.log('done');
+    //   };
+      
+		// 	xhr.open('GET', url);
+		// 	return xhr.send();
 
-			// Or inserted into an <img> element:
-			var img = document.getElementById('myimg');
-			img.src = url;
-		}).catch(function(error) {
-			// Handle any errors
-		});
-
-
-
-
-
-
-
-
+		// }).catch(function(error) {
+		// 	// Handle any errors
+    // });
     /*
     // trigger face API call
     axios.post("https://us-central1-moodmusic-280e5.cloudfunctions.net/face", data, {

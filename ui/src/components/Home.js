@@ -1,16 +1,21 @@
 import React from 'react';
 import './Home.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCompactDisc } from '@fortawesome/free-solid-svg-icons'
 
 const Home = (props) => {
     return(
         <div 
             className="container"
-            style={{ display: props.showSub ? 'none':'block' }}    
+            style={{ display: props.showSub ? 'none':'block' }} 
+            onClick = { props.handleAccess}   
         >
-            <p><i class="fas fa-compact-disc"></i>Mood Music</p>
-
-            <p>Express your feelings</p>
-            <button onClick={ props.handleAccess }>click</button>
+            <div className="container_header">
+                <p><FontAwesomeIcon icon={ faCompactDisc } /> Mood Music</p>
+            </div>
+            <div className="container_body">
+                <p>Express your feelings</p>
+            </div>
         </div>
     )
 };
