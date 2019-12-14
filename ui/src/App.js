@@ -16,7 +16,7 @@ import dotenv from 'dotenv';
 import * as firebase from 'firebase';
 
 const API_KEY = 'AIzaSyA1rFHnFYY7C0Dfmeyo7H6TtMVSu0hKqFQ';
-const term = 'music when you are depressed';
+var term = 'music when you are ';
 
 dotenv.config()
 var firebaseConfig = {
@@ -88,7 +88,7 @@ class App extends React.Component {
       // trigger face detection
       const fullPath = result.metadata.fullPath
       console.log(`success! triggering face detection with ${fullPath}`);
-      await axios.get("https://us-central1-moodmusic-280e5.cloudfunctions.net/face", {
+      const emotion = await axios.get("https://us-central1-moodmusic-280e5.cloudfunctions.net/face", {
         params: {
           fullPath,
         }
@@ -100,7 +100,15 @@ class App extends React.Component {
         console.warning(`got ${res.status} from Google Functions`);
         return [];
       });
-
+      const emotionResult = 'joy';
+      for (let i = 0; i < emotion.length; i++ ){ 
+        for (let[ key, value ] of Object.entries(emotion[i])) {
+          if (value == "VERY_LIKELY") {
+            emotionResult = key;
+          }
+        }
+      }
+      term = term + emotionResult;
       // search YouTube
       this.videoSearch(term);
       this.setState({
