@@ -66,66 +66,51 @@ class App extends React.Component {
 
   }
 
-  onTakePhotoAnimationDone (dataUri) {
+  async onTakePhotoAnimationDone (dataUri) {
     console.log('Take Photo');
-    this.setState({
-      // dataUri: dataUri
-      dataUri: avatar 
-    });
-    console.log(this.state.dataUri);
-    const data = new FormData();
-    data.append('file', this.state.dataUri);
-
     // upload photo
-    console.log(`data URI: ${dataUri}`)
-    /*
-    bucket.upload(dataUri, function(err, file, apiResponse) {
-      // Your bucket now contains:
-      // - "image.png" (with the contents of `/local/path/image.png')
-      console.log(`done uploading ${dataUri}`);
+    var imgPathRef = storage.ref('faces/user1/image5.png');
+    console.log('awaiting for PUT');
 
-      // `file` is an instance of a File object that refers to your new file.
+    // using string
+    var metadata = {
+        contentType: 'image/png',
+    };
+    console.log(dataUri);
+    const result = await imgPathRef.putString(dataUri, 'data_url', metadata).then(function(snapshot) {
+      console.log('Upload blob.');
+      console.log(snapshot);
+      return snapshot
+    }).catch(err => {
+      console.log('error....');
+      console.error(err);
     });
-    */
 
-    var imgPathRef = storage.ref('faces/user1/image1.png');
-		imgPathRef.getDownloadURL().then(function(url) {
-			// `url` is the download URL for 'images/stars.jpg'
+    if (result.state === "success") {
+      // trigger face detection
+      const fullPath = result.metadata.fullPath
+      console.log(`success! triggering face detection with ${fullPath}`);
+      await axios.get("https://us-central1-moodmusic-280e5.cloudfunctions.net/face", {
+        params: {
+          fullPath,
+        }
+      }).then(res => {
+        if (res.status === 200) {
+          console.log(res.data.emotions);
+          return res.data.emotions
+        };
+        console.warning(`got ${res.status} from Google Functions`);
+        return [];
+      });
 
-			// This can be downloaded directly:
-			var xhr = new XMLHttpRequest();
-			xhr.responseType = 'blob';
-			xhr.onload = function(event) {
-				var blob = xhr.response;
-				console.log(blob);
-				console.log('done');
-			};
-			xhr.open('GET', url);
-			return xhr.send();
-
-			// Or inserted into an <img> element:
-			var img = document.getElementById('myimg');
-			img.src = url;
-		}).catch(function(error) {
-			// Handle any errors
-		});
-
-
-
-
-
-
-
-
-    /*
-    // trigger face API call
-    axios.post("https://us-central1-moodmusic-280e5.cloudfunctions.net/face", data, {
-    })
-    .then(res => {
-      console.log(res.statusText)
-    });
-    this.videoSearch(term);
-    */
+      // search YouTube
+      this.videoSearch(term);
+      this.setState({
+        dataUri: dataUri,
+      });
+    } else {
+      console.warning('failed to upload photo!');
+    };
   }
   retakePhoto = () => {
     this.setState({

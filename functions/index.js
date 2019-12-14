@@ -16,7 +16,9 @@ const client = new vision.ImageAnnotatorClient();
 
 app.get('/', function(req, res) {
   console.log('handling /');
-	const img = bucket.file('faces/user1/image1.png');
+  console.log(req.query);
+  const fullPath = req.query.fullPath;
+	const img = bucket.file(fullPath);
   return img.download().then(function(data) {
     const file = data[0];
     return client
@@ -24,6 +26,7 @@ app.get('/', function(req, res) {
       .then(response => {
         const [result] = response;
         const faces = result.faceAnnotations;
+        console.log(faces);
         let emotions = [];
         faces.forEach((face, i) => {
           emotions.push({
