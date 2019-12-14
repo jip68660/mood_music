@@ -7,6 +7,7 @@ import './App.css';
 import axios from 'axios';
 import FormData from 'form-data';
 
+import Home from './components/Home'
 import Video_detail from './components/Video_detail';
 import Video_list from './components/Video_list';
 import avatar from './avatar.png';
@@ -22,11 +23,13 @@ class App extends React.Component {
     this.state = {
       //Photo
       dataUri: null,
+      showSub: false,
       videos: [],
       selectedVideo: null
     }; 
     this.onTakePhotoAnimationDone = this.onTakePhotoAnimationDone.bind(this);
     this.retakePhoto = this.retakePhoto.bind(this);
+    this.handleAccess = this.handleAccess.bind(this);
   }
 
   videoSearch(term) {
@@ -36,6 +39,13 @@ class App extends React.Component {
         selectedVideo: videos[0] 
       });
     });
+  }
+  handleAccess = (e) => {
+    console.log('clicked');
+    this.setState({
+      showSub: true
+    });
+    console.log(this.state.showSub);
   }
 
   onTakePhotoAnimationDone (dataUri) {
@@ -68,23 +78,32 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <h1>Mood Music</h1>
-        {
-          (this.state.dataUri) 
-          ? <div>
-              <Video_detail 
-                video={ this.state.selectedVideo } 
-              />
-              <Video_list 
-                onSelectVideo={ selectedVideo => this.setState({ selectedVideo })} 
-                videos={ this.state.videos } 
-              />
-            </div>
-          : <Camera
-              onTakePhotoAnimationDone = { this.onTakePhotoAnimationDone }
-              imageType = { IMAGE_TYPES.PNG }
-          />
-        }
+        <Home 
+          handleAccess={ this.handleAccess } 
+          showSub={ this.state.showSub }
+        />
+        <div 
+          className="subContainer" 
+          style={{ display: this.state.showSub ? 'block':'none' }}
+        >
+          {
+            (this.state.dataUri) 
+            ? <div>
+                <Video_detail 
+                  video={ this.state.selectedVideo } 
+                />
+                <Video_list 
+                  onSelectVideo={ selectedVideo => this.setState({ selectedVideo })} 
+                  videos={ this.state.videos } 
+                />
+              </div>
+            : <Camera
+                onTakePhotoAnimationDone = { this.onTakePhotoAnimationDone }
+                imageType = { IMAGE_TYPES.PNG }
+            />
+          }
+        </div>
+         
       </div>
     );
   }
