@@ -7,6 +7,7 @@ import FormData from 'form-data';
 import Video_detail from './components/Video_detail';
 import avatar from './avatar.png';
 
+import _ from 'lodash';
 import YTSearch from 'youtube-api-search';
 const API_KEY = 'AIzaSyA1rFHnFYY7C0Dfmeyo7H6TtMVSu0hKqFQ';
 const term = 'music when you are depressed';
@@ -47,7 +48,6 @@ class App extends React.Component {
     .then(res => {
       console.log(res.statusText)
     });
-
     this.videoSearch(term);
   }
   retakePhoto = () => {
@@ -58,6 +58,10 @@ class App extends React.Component {
   }
   
   render() {
+    const videoSearch = _.debounce(term => {
+      this.videoSearch(term);
+    }, 300);
+
     return (
       <div className="App">
         <h1>Mood Music</h1>
@@ -65,6 +69,7 @@ class App extends React.Component {
           (this.state.dataUri) 
           ? <div>
               <Video_detail video={ this.state.selectedVideo } />
+              {/* <Video_list videos={ this.state.videos} /> */}
             </div>
           : <Camera
               onTakePhotoAnimationDone = { this.onTakePhotoAnimationDone }
