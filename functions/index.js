@@ -1,61 +1,45 @@
-var express = require('express');
-var app = express();
-var cors = require('cors');
-
-app.use(cors());
-
-// The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
 const functions = require('firebase-functions');
-
-// The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
+const vision = require('@google-cloud/vision');
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser')
+
+const app = express();
+app.use(cors());
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 admin.initializeApp();
+let bucket = admin.storage().bucket();
+const client = new vision.ImageAnnotatorClient();
 
-// exports.face = functions.https.onRequest(async (req, res) => {
-//   // Grab the text parameter.
-//   const original = req.query.text;
-//   // Push the new message into the Realtime Database using the Firebase Admin SDK.
-//   const snapshot = await admin.database().ref('/messages').push({original: original});
-//   // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
-//   res.redirect(303, snapshot.ref.toString());
-// });
-
-console.log("Before Post");
-
-app.post('/', function(req, res) {
+app.get('/', function(req, res) {
   console.log('handling /');
-
-  const vision = require('@google-cloud/vision');
-  // Creates a client
-  const client = new vision.ImageAnnotatorClient(
-    { crendentials: 
-      { client_email: "jip68660@gmail.com", 
-        private_key: "AIzaSyCEAGjyg3XHDmaVnCE22t1cFtRkpsydfus"}
-    }
-  );
-  console.log('Connect to vision');
-  console.log(req.file);
-
-  const [result] = client.faceDetection(req.file)
-  .then(response => {
-    console.log(response.json());  
-    return response.json();
-  })
-  .catch(err => {
-      console.error(err);
-  })
-  
-
-  const faces = result.faceAnnotations;
-  console.log('Faces:');
-  faces.forEach((face, i) => {
-    console.log(`  Face #${i + 1}:`);
-    console.log(`    Joy: ${face.joyLikelihood}`);
-    console.log(`    Anger: ${face.angerLikelihood}`);
-    console.log(`    Sorrow: ${face.sorrowLikelihood}`);
-    console.log(`    Surprise: ${face.surpriseLikelihood}`);
+	const img = bucket.file('faces/user1/image1.png');
+  return img.download().then(function(data) {
+    const file = data[0];
+    return client
+      .faceDetection(file)
+      .then(response => {
+        const [result] = response;
+        const faces = result.faceAnnotations;
+        let emotions = [];
+        faces.forEach((face, i) => {
+          emotions.push({
+            'index': i,
+            'joy': face.joyLikelihood,
+            'anger': face.angerLikelihood,
+            'sorrow': face.sorrowLikelihood,
+            'surprise': face.surpriseLikelihood,
+          });
+        });
+        return res.json({'emotions': emotions});
+      })
+      .catch(err => {
+        console.error(err);
+      });
   });
 });
 
-console.log("After Post");
 exports.face = functions.https.onRequest(app);
