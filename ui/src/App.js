@@ -1,54 +1,37 @@
 import React from 'react';
 import Camera, { IMAGE_TYPES} from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
-import Webcam from 'react-webcam';
 import './App.css';
 import axios from 'axios';
 import FormData from 'form-data';
+import Video_detail from './components/Video_detail';
 import avatar from './avatar.png';
+
+import YTSearch from 'youtube-api-search';
+const API_KEY = 'AIzaSyA1rFHnFYY7C0Dfmeyo7H6TtMVSu0hKqFQ';
+const term = 'music when you are depressed';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       //Photo
-      dataUri: null
+      dataUri: null,
+      videos: [],
+      selectedVideo: null
     }; 
     this.onTakePhotoAnimationDone = this.onTakePhotoAnimationDone.bind(this);
     this.retakePhoto = this.retakePhoto.bind(this);
   }
-  // componentDidMount() {    
-  //   var constraints = { audio: true, video: true};
-  //   if (navigator.mediaDevices === undefined) {
-  //     navigator.mediaDevices = {};
-  //   }
-  //   if (navigator.mediaDevices.getUserMedia === undefined) {
-  //     navigator.mediaDevices.getUserMedia = function(constraints) {
-  //       var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  //       if (!getUserMedia) {
-  //         return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
-  //       }
-  //       return new Promise(function(resolve, reject) {
-  //         getUserMedia.call(navigator, constraints, resolve, reject);
-  //       });
-  //     }
-  //   }
-  //   navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-  //   .then(function(stream) {
-  //     var video = document.querySelector('video');
-  //     if ("srcObject" in video) {
-  //       video.srcObject = stream;
-  //     } else {
-  //       video.src = window.URL.createObjectURL(stream);
-  //     }
-  //     video.onloadedmetadata = function(e) {
-  //       video.play();
-  //     };
-  //   })
-  //   .catch(function(err) {
-  //     console.log(err.name + ": " + err.message);
-  //   });
-  // }
+
+  videoSearch(term) {
+    YTSearch({ key: API_KEY, term: term }, videos => {
+      this.setState({
+        videos: videos,
+        selectedVideo: videos[0] 
+      });
+    });
+  }
 
   onTakePhotoAnimationDone (dataUri) {
     console.log('Take Photo');
@@ -64,6 +47,8 @@ class App extends React.Component {
     .then(res => {
       console.log(res.statusText)
     });
+
+    this.videoSearch(term);
   }
   retakePhoto = () => {
     this.setState({
@@ -76,17 +61,10 @@ class App extends React.Component {
     return (
       <div className="App">
         <h1>Mood Music</h1>
-        {/* <Webcam /> */}
         {
           (this.state.dataUri) 
           ? <div>
-              <img src={ this.state.dataUri } />
-              <button
-                className={ "retake"}
-                onClick={ this.retakePhoto }
-              >
-              Want to take another one?
-              </button>
+              <Video_detail video={ this.state.selectedVideo } />
             </div>
           : <Camera
               onTakePhotoAnimationDone = { this.onTakePhotoAnimationDone }
