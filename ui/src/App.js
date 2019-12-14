@@ -100,10 +100,10 @@ class App extends React.Component {
         console.warning(`got ${res.status} from Google Functions`);
         return [];
       });
-      const emotionResult = 'joy';
+      var emotionResult = 'joy';
       for (let i = 0; i < emotion.length; i++ ){ 
         for (let[ key, value ] of Object.entries(emotion[i])) {
-          if (value == "VERY_LIKELY") {
+          if (value == "VERY_LIKELY" || value === "POSSIBLE") {
             emotionResult = key;
           }
         }
