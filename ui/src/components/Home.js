@@ -11,7 +11,7 @@ const Home = (props) => {
             onClick = { props.handleAccess}   
         >
             <div className="container_header">
-                <p><FontAwesomeIcon icon={ faCompactDisc } /> Mood Music</p>
+                <p><FontAwesomeIcon icon={ faCompactDisc } className="fa-spin" /> Mood Music</p>
             </div>
             <div className="container_body">
                 <p>Express your feelings</p>
