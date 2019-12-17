@@ -100,15 +100,21 @@ class App extends React.Component {
         console.warning(`got ${res.status} from Google Functions`);
         return [];
       });
-      var emotionResult = 'joy';
+      var defaultEmotion = 'joy';
+      var emotionList = "";
       for (let i = 0; i < emotion.length; i++ ){ 
         for (let[ key, value ] of Object.entries(emotion[i])) {
-          if (value == "VERY_LIKELY" || value === "POSSIBLE") {
-            emotionResult = key;
+          if (value == "VERY_LIKELY" || value==="LIKELY" || value === "POSSIBLE") {
+            emotionList += key;
           }
         }
       }
-      term = term + emotionResult;
+      if (emotionList != "") {
+        term = term + emotionList;
+      }else {
+        term = term + defaultEmotion;
+      }
+      console.log(term);
       // search YouTube
       this.videoSearch(term);
       this.setState({
