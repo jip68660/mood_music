@@ -7,6 +7,7 @@ import FormData from 'form-data';
 import Home from './components/Home'
 import Video_detail from './components/Video_detail';
 import Video_list from './components/Video_list';
+import './App.css';
 import avatar from './avatar.png';
 
 import _ from 'lodash';
@@ -17,6 +18,7 @@ import * as firebase from 'firebase';
 
 const API_KEY = 'AIzaSyA1rFHnFYY7C0Dfmeyo7H6TtMVSu0hKqFQ';
 var term = 'music when you are ';
+var themeclass = ['App', 'default'];
 
 dotenv.config()
 var firebaseConfig = {
@@ -38,7 +40,8 @@ class App extends React.Component {
       dataUri: null,
       showSub: false,
       videos: [],
-      selectedVideo: null
+      selectedVideo: null,
+      mainTheme: ""
     }; 
     this.onTakePhotoAnimationDone = this.onTakePhotoAnimationDone.bind(this);
     this.retakePhoto = this.retakePhoto.bind(this);
@@ -61,7 +64,6 @@ class App extends React.Component {
       showSub: true
     });
     console.log(this.state.showSub);
-
   }
 
   async onTakePhotoAnimationDone (dataUri) {
@@ -100,12 +102,20 @@ class App extends React.Component {
         console.warning(`got ${res.status} from Google Functions`);
         return [];
       });
+      //Default
+      this.setState({
+        mainTheme: 'joy'
+      });
       var defaultEmotion = 'joy';
       var emotionList = "";
       for (let i = 0; i < emotion.length; i++ ){ 
         for (let[ key, value ] of Object.entries(emotion[i])) {
           if (value == "VERY_LIKELY" || value==="LIKELY" || value === "POSSIBLE") {
             emotionList += key;
+            //Need to think how to select main theme
+            this.setState({
+              mainTheme: key
+            });
           }
         }
       }
@@ -114,7 +124,6 @@ class App extends React.Component {
       }else {
         term = term + defaultEmotion;
       }
-      console.log(term);
       // search YouTube
       this.videoSearch(term);
       this.setState({
@@ -135,9 +144,14 @@ class App extends React.Component {
     const videoSearch = _.debounce(term => {
       this.videoSearch(term);
     }, 300);
+    
+    if (this.state.mainTheme) {
+      themeclass.pop();
+      themeclass.push(this.state.mainTheme);
+    }
 
     return (
-      <div className="App">
+      <div className={themeclass.join(' ')} >
         <Home 
           handleAccess={ this.handleAccess } 
           showSub={ this.state.showSub }
