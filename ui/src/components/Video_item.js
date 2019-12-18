@@ -5,9 +5,9 @@ const Video_item = (props) => {
 
     return(
         <li>
-            <div>
+            <div className="not_displayed">
                 <img src={ thumnail } onClick={ () => props.onSelectVideo(props.video) } />
-                { props.video.snippet.title }
+                {/* { props.video.snippet.title } */}
             </div>
         </li>
     )

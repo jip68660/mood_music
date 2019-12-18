@@ -1,7 +1,7 @@
 import React from 'react';
 import './Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCompactDisc } from '@fortawesome/free-solid-svg-icons'
+import { faCompactDisc } from '@fortawesome/free-solid-svg-icons';
 
 const Home = (props) => {
     return(

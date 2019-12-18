@@ -5,8 +5,7 @@ import axios from 'axios';
 import FormData from 'form-data';
 
 import Home from './components/Home'
-import Video_detail from './components/Video_detail';
-import Video_list from './components/Video_list';
+import VideoResult from './components/VideoResult'
 import './App.css';
 import avatar from './avatar.png';
 
@@ -50,7 +49,7 @@ class App extends React.Component {
   }
 
   videoSearch(term) {
-    YTSearch({ key: API_KEY, term: term, maxResults: 4 }, videos => {
+    YTSearch({ key: API_KEY, term: term }, videos => {
       this.setState({
         videos: videos,
         selectedVideo: videos[0] 
@@ -110,7 +109,7 @@ class App extends React.Component {
       var emotionList = "";
       for (let i = 0; i < emotion.length; i++ ){ 
         for (let[ key, value ] of Object.entries(emotion[i])) {
-          if (value == "VERY_LIKELY" || value==="LIKELY" || value === "POSSIBLE") {
+          if (value === "VERY_LIKELY" || value === "LIKELY" || value === "POSSIBLE") {
             emotionList += key;
             //Need to think how to select main theme
             this.setState({
@@ -119,7 +118,7 @@ class App extends React.Component {
           }
         }
       }
-      if (emotionList != "") {
+      if (emotionList !== "") {
         term = term + emotionList;
       }else {
         term = term + defaultEmotion;
@@ -162,15 +161,11 @@ class App extends React.Component {
         >
           {
             (this.state.dataUri) 
-            ? <div>
-                <Video_detail 
-                  video={ this.state.selectedVideo } 
-                />
-                <Video_list 
-                  onSelectVideo={ selectedVideo => this.setState({ selectedVideo })} 
-                  videos={ this.state.videos } 
-                />
-              </div>
+            ? <VideoResult 
+                video = { this.state.selectedVideo }
+                onSelectVideo = { selectedVideo => this.setState({ selectedVideo })}
+                videolist = { this.state.videos }
+            />           
             : <Camera
                 onTakePhotoAnimationDone = { this.onTakePhotoAnimationDone }
                 imageType = { IMAGE_TYPES.PNG }
