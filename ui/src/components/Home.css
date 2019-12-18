@@ -1,12 +1,17 @@
 .container {
     display: flex;
     font-family: "Comic Sans MS", cursive, sans-serif;
-    transition: all .2s ease-in-out;
     color: white;
+    text-align: center;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+
+    width: 60%;
+    padding: 5%;
 }
-.container_header:hover {
+.container:hover .container_header {
     cursor: pointer;
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 .container:hover .container_body {
     opacity: 1;
@@ -15,13 +20,15 @@
     font-size: 5rem;
     align-self: center;
     font-weight: bold;
+    transition: transform 2s;
+    z-index: 1;
 }
 
 .container_body {
     font-size: 2rem;
     text-align: center;
     opacity: 0;
-    transition: opacity 3s;
+    transition: opacity 2s;
 }
 p {
     margin: 0;
