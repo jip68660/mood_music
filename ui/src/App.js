@@ -11,6 +11,7 @@ import avatar from './avatar.png';
 
 import _ from 'lodash';
 import YTSearch from 'youtube-api-search';
+import resizeImage from 'image-resize';
 
 import dotenv from 'dotenv';
 import * as firebase from 'firebase';
@@ -43,7 +44,7 @@ class App extends React.Component {
       mainTheme: ""
     }; 
     this.onTakePhotoAnimationDone = this.onTakePhotoAnimationDone.bind(this);
-    this.retakePhoto = this.retakePhoto.bind(this);
+    // this.retakePhoto = this.retakePhoto.bind(this);
     this.handleAccess = this.handleAccess.bind(this);
 
   }
@@ -76,6 +77,14 @@ class App extends React.Component {
         contentType: 'image/png',
     };
     console.log(dataUri);
+    
+    resizeImage.updateOptions({
+      width: 600,
+      height: 400
+    }).play(dataUri).then();
+
+
+
     const result = await imgPathRef.putString(dataUri, 'data_url', metadata).then(function(snapshot) {
       console.log('Upload blob.');
       console.log(snapshot);
@@ -132,12 +141,12 @@ class App extends React.Component {
       console.warning('failed to upload photo!');
     };
   }
-  retakePhoto = () => {
-    this.setState({
-      dataUri: null
-    });
-    console.log(this.state.dataUri);
-  }
+  // retakePhoto = () => {
+  //   this.setState({
+  //     dataUri: null
+  //   });
+  //   console.log(this.state.dataUri);
+  // }
   
   render() {
     const videoSearch = _.debounce(term => {
