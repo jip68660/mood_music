@@ -11,7 +11,6 @@ import avatar from './avatar.png';
 
 import _ from 'lodash';
 import YTSearch from 'youtube-api-search';
-import resizeImage from 'image-resize';
 
 import dotenv from 'dotenv';
 import * as firebase from 'firebase';
@@ -77,13 +76,6 @@ class App extends React.Component {
         contentType: 'image/png',
     };
     console.log(dataUri);
-    
-    resizeImage.updateOptions({
-      width: 600,
-      height: 400
-    }).play(dataUri).then();
-
-
 
     const result = await imgPathRef.putString(dataUri, 'data_url', metadata).then(function(snapshot) {
       console.log('Upload blob.');
@@ -171,13 +163,14 @@ class App extends React.Component {
           {
             (this.state.dataUri) 
             ? <VideoResult 
-                video = { this.state.selectedVideo }
-                onSelectVideo = { selectedVideo => this.setState({ selectedVideo })}
-                videolist = { this.state.videos }
+                video={ this.state.selectedVideo }
+                onSelectVideo={ selectedVideo => this.setState({ selectedVideo })}
+                videolist={ this.state.videos }
             />           
             : <Camera
-                onTakePhotoAnimationDone = { this.onTakePhotoAnimationDone }
-                imageType = { IMAGE_TYPES.PNG }
+                onTakePhotoAnimationDone={ this.onTakePhotoAnimationDone }
+                imageType={ IMAGE_TYPES.PNG }
+                idealResolution={{ width: 800, height: 600 }}
             />
           }
         </div>

@@ -12,6 +12,10 @@
   width: 80%;
   height: 80%;
 }
+Camera {
+  width: 80%;
+  height: 80%;
+}
 
 .App.default {
   animation: pulse 20s infinite;
