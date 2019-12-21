@@ -7,7 +7,6 @@ import FormData from 'form-data';
 import Home from './components/Home'
 import VideoResult from './components/VideoResult'
 import './App.css';
-import avatar from './avatar.png';
 
 import _ from 'lodash';
 import YTSearch from 'youtube-api-search';
