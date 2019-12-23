@@ -14,13 +14,14 @@ import YTSearch from 'youtube-api-search';
 import dotenv from 'dotenv';
 import * as firebase from 'firebase';
 
-const API_KEY = 'AIzaSyA1rFHnFYY7C0Dfmeyo7H6TtMVSu0hKqFQ';
 var term = 'music when you are ';
 var themeclass = ['App', 'default'];
 
-dotenv.config()
+dotenv.config();
+const API_KEY = process.env.REACT_APP_API_KEY;
+console.log(process.env.REACT_APP_API_KEY);
 var firebaseConfig = {
-  apiKey: 'AIzaSyB7jaWkH0KJWiADZKWd-JZVEgr-o6sezFs',
+  apiKey: API_KEY,
   // authDomain: '<your-auth-domain>',
   // databaseURL: '<your-database-url>',
   storageBucket: 'gs://moodmusic-280e5.appspot.com',
