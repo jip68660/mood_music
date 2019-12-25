@@ -14,7 +14,7 @@ import YTSearch from 'youtube-api-search';
 import dotenv from 'dotenv';
 import * as firebase from 'firebase';
 
-var term = 'music when you are ';
+var term = '';
 var themeclass = ['App', 'default'];
 
 dotenv.config();
@@ -40,11 +40,14 @@ class App extends React.Component {
       showSub: false,
       videos: [],
       selectedVideo: null,
-      mainTheme: ""
+      mainTheme: "",
+      region: "",
+      genre: ""
     }; 
     this.onTakePhotoAnimationDone = this.onTakePhotoAnimationDone.bind(this);
     // this.retakePhoto = this.retakePhoto.bind(this);
     this.handleAccess = this.handleAccess.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
   }
 
@@ -62,7 +65,13 @@ class App extends React.Component {
     this.setState({
       showSub: true
     });
-    console.log(this.state.showSub);
+    term = this.state.region + " " + this.state.genre + " music when you are ";
+    console.log(term);
+  }
+  handleChange = (e, value) => {
+    this.setState({
+      [ value ]: e.target.value
+    });
   }
 
   async onTakePhotoAnimationDone (dataUri) {
@@ -155,6 +164,9 @@ class App extends React.Component {
         <Home 
           handleAccess={ this.handleAccess } 
           showSub={ this.state.showSub }
+          region={ this.state.region }
+          genre={ this.state.genre }
+          handleChange={ this.handleChange }
         />
         <div 
           className="subContainer" 
