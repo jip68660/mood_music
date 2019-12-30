@@ -20,6 +20,8 @@
     "react-image-file-resizer": "^0.2.1",
     "react-scripts": "^3.3.0",
     "react-webcam": "^4.0.0",
+    "unescape": "^1.0.1",
+    "unescape-js": "^1.1.4",
     "youtube-api-search": "0.0.5"
   },
   "scripts": {
