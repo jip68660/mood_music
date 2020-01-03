@@ -43,14 +43,19 @@ p {
     width: 75%;
     margin: 0;
 }
+.inputForm > p {
+    font-size: 1rem;
+}
 .inputRegion, .inputGenre {
     padding: 2%;
 }
-button {
-    width: 20%;
+.submitButton {
+    margin: auto;
+    transition: all 1s;
 }
-button:hover {
+.submitButton:hover {
     cursor: pointer;
+    transform: scale(1.1);
 }
 input {
     outline: 0;

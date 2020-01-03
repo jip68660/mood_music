@@ -7,16 +7,23 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            clicked: false
+            clicked: false,
+            isHovered: false
         };
         this.handleRegion = this.handleRegion.bind(this);
         this.handleGenre = this.handleGenre.bind(this);
+        this.toggleHover = this.toggleHover.bind(this);
     }
     handleRegion = (e) => {
         this.props.handleChange(e, "region");
     }
     handleGenre = (e) => {
         this.props.handleChange(e, "genre");
+    }
+    toggleHover = () => {
+        this.setState(prevState => ({
+            isHovered: !prevState.isHovered
+        }));
     }
 
     render(){
@@ -47,10 +54,16 @@ class Home extends React.Component {
                         <span>Genre: </span>
                         <input value={ this.props.genre } onChange={ this.handleGenre } /> 
                     </div>
+                    <p>&#9674; Not Required</p>
                 </div>
-                
-                    <button onClick={ this.props.handleAccess } >Mood</button>
-            
+                <div className="submitButton" onMouseEnter={ this.toggleHover } onMouseLeave={ this.toggleHover }>
+                    <FontAwesomeIcon 
+                        icon={ faCompactDisc } 
+                        onClick={ this.props.handleAccess } 
+                        className={ this.state.isHovered ? "fa-spin" : "" } 
+                        size="3x"
+                    />
+                </div>            
             </div>
     )
     }
