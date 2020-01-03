@@ -1,13 +1,13 @@
-.container {
-    display: flex;
+.container, .container_ask{
     font-family: "Comic Sans MS", cursive, sans-serif;
     color: black;
     text-align: center;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
-
-    width: 60%;
     padding: 5%;
+}
+.container {
+    width: 60%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 .container:hover .container_header {
     cursor: pointer;
@@ -23,7 +23,6 @@
     transition: transform 2s;
     z-index: 1;
 }
-
 .container_body {
     font-size: 2rem;
     text-align: center;
@@ -32,4 +31,33 @@
 }
 p {
     margin: 0;
+}
+.container_ask {
+    font-size: 2rem;
+    flex-direction: row;
+    width: 60%;
+}
+.inputForm {
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    margin: 0;
+}
+.inputRegion, .inputGenre {
+    padding: 2%;
+}
+button {
+    width: 20%;
+}
+button:hover {
+    cursor: pointer;
+}
+input {
+    outline: 0;
+    border: 0;
+    border-bottom: 1px solid black;
+    font-size: 2rem;
+    background: transparent;
+    text-align: center;
+    font-family: "Comic Sans MS", cursive, sans-serif;
 }

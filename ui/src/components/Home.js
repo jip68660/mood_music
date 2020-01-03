@@ -36,19 +36,21 @@ class Home extends React.Component {
             </div>
             : <div 
                 className="container_ask"
-                style={{ display: this.props.showSub ? 'none': 'block' }}
+                style={{ display: this.props.showSub ? 'none': 'flex' }}
             >
-                <div className="inpoutRegion">
-                    <span>Region: </span>
-                    <input value={ this.props.region } onChange={ this.handleRegion } />
+                <div className="inputForm"> 
+                    <div className="inputRegion">
+                        <span>Region: </span>
+                        <input value={ this.props.region } onChange={ this.handleRegion } />
+                    </div>
+                    <div className="inputGenre">
+                        <span>Genre: </span>
+                        <input value={ this.props.genre } onChange={ this.handleGenre } /> 
+                    </div>
                 </div>
-                <div className="inputGenre">
-                    <span>Genre: </span>
-                    <input value={ this.props.genre } onChange={ this.handleGenre } /> 
-                </div>
-                <div className="submitButton">
+                
                     <button onClick={ this.props.handleAccess } >Mood</button>
-                </div>
+            
             </div>
     )
     }
